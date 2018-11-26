@@ -6,12 +6,16 @@
 			<b-navbar-brand to="/">My Vue App</b-navbar-brand>
 			<b-collapse is-nav id="nav_collapse">
 				<b-navbar-nav>
-					     <b-nav-item to="/">
+					     <b-nav-item to="/hello">
 						        Home
 					     </b-nav-item>
 
               <b-nav-item  to="/user-manager">
                     User Manager
+              </b-nav-item>
+              
+              <b-nav-item  to="/login">
+                    Log in
               </b-nav-item>
 				</b-navbar-nav>
 
