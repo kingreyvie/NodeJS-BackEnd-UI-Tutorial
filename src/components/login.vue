@@ -1,27 +1,14 @@
-<template>
-    
-	<div class="hero">				
-				<b-card :title="('Login Form')">
-					<form @submit.prevent = "saveUser">
-
-						<b-form-group label = "Username">
-							<b-form-input type = "text"></b-form-input>
-						</b-form-group>
-
-						<b-form-group label = "Password">
-							<b-form-input type = "text"></b-form-input>
-						</b-form-group>
-
-
-						<div slot="modal-footer" class="text-right">
-								<b-btn type = "submit" variant = "success">Login</b-btn>
-								<b-btn>Clear</b-btn>
-						</div>
-
-					</form>
-				</b-card>
-
-</div>
+<template lang="pug">
+	.hero
+		b-card(title=('Login Form'))
+			form(@submit.prevent = "saveUser")
+				b-form-group(label="Username")
+					b-form-input(type="text")
+				b-form-group(label="Password")
+					b-form-input(type="password")
+				div(slot="modal-footer" class="text-right")
+					b-btn(type="submit" variant="success") Login
+					b-btn Clear
 </template>
 
 <style scoped>

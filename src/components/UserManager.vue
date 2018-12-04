@@ -1,109 +1,80 @@
-/* eslint-plugin-disable */
-<template>
-	<div class = "container-fluid mt-4">
-		<b-alert :show = "loading" variant = "warning">Loading...</b-alert>
-<div class="search-wrapper">
-	<form>
-		<b-input-group size = "lg" prepend = "Search First Name">
-		<b-dropdown text="Drop"
-		<b-input type="text" v-model = "search" placeholder = "Search First Name"/>
-		<b-btn type = "submit" variant = "info" >Search user</b-btn>
-	</b-input-group>
-	</form>
-	<br>
-</div>
-		<h1 class="h1">User Manager</h1>
-<!--table-->
-		<b-row>
-			<b-col>
-				<table class = "table table-striped table-hover" hover>
-					<thead>
-						<tr>
-							<th>ID</th>
-							<th>First Name</th>
-							<th>Last Name</th>
-							<th>Role</th>
-							<th>Email</th>
-							<th v-bind:style = "{ 'text-align': 'center' }">Status</th>
-							<th>&nbsp;</th>
-						</tr>
-					</thead>
 
-					<tbody>
-						<tr v-for = "user in users" :key = "user.id">
-							<td>{{user.user_id}}</td>
-							<td>{{user.user_fname}}</td>
-							<td>{{user.user_lname}}</td>
-							<td>{{user.user_role}}</td>
-							<td>{{user.user_email}}</td>
-							<td v-if = "user.user_isdel == 0" variant="outline-success" v-bind:style = "{ 'color': 'green', 'text-align': 'center' }">Active</td>
-							<td v-else v-bind:style = "{ 'color': 'red', 'text-align': 'center' }">Inactive</td>
-
-									<td class="text-right">
-											<b-button v-if = "user.user_isdel == 1" variant="outline-success" :pressed="true" @click.prevent = "deleteUser(user.user_id,user.user_isdel)">Activate&nbsp;&nbsp;&nbsp;&nbsp;</b-button>
-											<b-button v-else variant="outline-danger" :pressed="true" @click.prevent = "deleteUser(user.user_id,user.user_isdel)" >Deactivate</b-button>
-										<a href = "#" @click.prevent = "populateUserToEdit(user)" variant="success" @click="modalShow=true">
-											<b-button :pressed="true" @click="modalShow = !modalShow" variant="primary sm">Edit</b-button>
-										</a>
-										
-									</td>
-
-						</tr>
-					</tbody>
-
-				</table>
-				<!-- end of table -->
-			</b-col>
-
-
-
-
-
-<!-- modal for the save user-->
-			 <b-modal v-model="modalShow" hide-footer="true">
+  <template lang="pug">
+	div(class="container-fluid mt-4")
+		h1.h1 User Manager
+		b-row
+			b-col
+				table(class="table table-striped table-hover" hover)
+					thead
+						tr
+							th ID
+							th First Name
+							th Last Name
+							th Role
+							th Email
+							th(v-bind:style="{ 'text-align': 'center' }") Status
+							th &nbsp;
+							
+					tbody
+						tr(v-for="user in users" :key="user.id")
+							td {{user.user_id}}
+							td {{user.user_fname}}
+							td {{user.user_lname}}
+							td {{user.user_role}}
+							td {{user.user_email}}
+							td(v-if="user.user_isdel==0" variant="outline-success" v-bind:style="{'color': 'green', 'text-align': 'center', 'font-weight': 'bolder'}") Active
+							td(v-else v-bind:style="{ 'color': 'red', 'text-align': 'center', 'font-weight': 'bolder' }") Inactive
+								td.text-right
+									b-button(v-if = "user.user_isdel == 1" variant="outline-success" :pressed="true" @click.prevent = "deleteUser(user.user_id,user.user_isdel)" v-bind:style="{'width': '105px', 'margin':'10px', 'font-weight': 'bolder'}") Activate
+									b-button(v-else variant="outline-danger" :pressed="true" @click.prevent = "deleteUser(user.user_id,user.user_isdel)" v-bind:style="{'width': '105px', 'margin':'10px', 'font-weight': 'bolder'}") Deactivate
+									a(ref = "#" @click.prevent = "populateUserToEdit(user)" variant="success" @click="modalShow=true") 
+										b-button(:pressed="true" @click="modalShow = !modalShow" variant="primary sm" v-bind:style="{'font-weight': 'bolder'}") 
+											i(class="fa fa-edit")
+											span(v-bind:style="{'margin': '5px'}") Edit
 											
-				<b-card :title="(model.user_id ? 'Edit user ID #' + model.user_id : 'New user')">
-					<form @submit.prevent = "saveUser">
 
-						<b-form-group label = "First Name">
-							<b-form-input type = "text" v-model = "model.user_fname"></b-form-input>
-						</b-form-group>
-
-						<b-form-group label = "Last Name">
-							<b-form-input type = "text" v-model = "model.user_lname"></b-form-input>
-						</b-form-group>
-
-						<b-form-group label = "Role">
-							<b-form-input type = "text" v-model = "model.user_role"></b-form-input>
-						</b-form-group>
-
-						<b-form-group label = "Email">
-							<b-form-input type = "text" v-model = "model.user_email"></b-form-input>
-						</b-form-group>
-
-						<div slot="modal-footer" class="text-right">
-								<b-btn type = "submit" variant = "success" @click="modalShow=false">Save user</b-btn>
-								<b-btn v-if = "model.user_id ? true : false" variant = "danger" @click.prevent = "clear()" @click="modalShow=false">Cancel</b-btn>
-						</div>
-
-					</form>
-				</b-card>
-				</b-modal>
-		</b-row>
-
-	</div>
-
-
-
+			b-modal(v-model="modalShow" hide-footer="true")
+				b-card(:title="(model.user_id ? 'Edit user ID #' + model.user_id : 'New user')")
+					form(@submit.prevent="saveUser")
+						b-form-group(label="First Name")
+							b-form-input(type="text" v-model="model.user_fname")
+						b-form-group(label="Last Name")
+							b-form-input(type="text" v-model="model.user_lname")
+						b-form-group(label="Role")
+							b-form-input(type="text" v-model="model.user_role")
+						b-form-group(label="Email")
+							b-form-input(type="text" v-model="model.user_email")
+						div(slot="modal-footer" class="text-right")
+							b-btn(type="submit" variant="success" @click="modalShow=false") Save user
+							
+							b-btn(class="btn" v-if="model.user_id ? true : false" variant="danger" @click.prevent="clear()" @click="modalShow=false")
+								i(class="fa fa-close") 
+									span Cancel
 </template>
 
+<style lang="scss">
+td {
+  font-weight: bold;
+}
 
+th {
+  font-weight: bolder;
+}
 
-
+.btn {
+  border: none;
+  color: white;
+  padding: 12px 16px;
+  font-size: 16px;
+  cursor: pointer;
+}
+</style>
 
 <script>
 		import userService from './userService'
-		export default{
+		import EditUserModal from '../Modals/EditUserModal'
+
+export default{
 
   data () {
     return {
@@ -114,15 +85,14 @@
       updateModel: {},
       deleteModel: {},
       search: '',
-      modalShow: false
+      modalShow: false,
     }
-  },
+	},
+	
   async created () {
     this.refreshUsers()
-  },
-  computed: {
-
-  },
+	},
+	
   methods: {
     async refreshUsers () {
       this.loading = true
