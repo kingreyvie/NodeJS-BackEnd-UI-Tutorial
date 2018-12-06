@@ -1,5 +1,4 @@
-
-  <template lang="pug">
+<template lang="pug">
 	div(class="container-fluid mt-4")
 		h1.h1 User Manager
 		b-row
@@ -25,15 +24,17 @@
 							td(v-if="user.user_isdel==0" variant="outline-success" v-bind:style="{'color': 'green', 'text-align': 'center', 'font-weight': 'bolder'}") Active
 							td(v-else v-bind:style="{ 'color': 'red', 'text-align': 'center', 'font-weight': 'bolder' }") Inactive
 								td.text-right
-									b-button(v-if = "user.user_isdel == 1" variant="outline-success" :pressed="true" @click.prevent = "deleteUser(user.user_id,user.user_isdel)" v-bind:style="{'width': '105px', 'margin':'10px', 'font-weight': 'bolder'}") Activate
-									b-button(v-else variant="outline-danger" :pressed="true" @click.prevent = "deleteUser(user.user_id,user.user_isdel)" v-bind:style="{'width': '105px', 'margin':'10px', 'font-weight': 'bolder'}") Deactivate
-									a(ref = "#" @click.prevent = "populateUserToEdit(user)" variant="success" @click="modalShow=true") 
-										b-button(:pressed="true" @click="modalShow = !modalShow" variant="primary sm" v-bind:style="{'font-weight': 'bolder'}") 
-											i(class="fa fa-edit")
-											span(v-bind:style="{'margin': '5px'}") Edit
-											
+									b-button(v-if = "user.user_isdel == 1" variant="outline-success" :pressed="true" @click.prevent = "deleteUser(user.user_id,user.user_isdel)" v-bind:style="{'width': '105px', 'margin': '5px', 'font-weight': 'bolder'}")  Activate
 
-			b-modal(v-model="modalShow" hide-footer="true")
+									b-button(v-else variant="outline-danger" :pressed="true" @click.prevent = "deleteUser(user.user_id,user.user_isdel)" v-bind:style="{'width': '105px', 'margin': '5px', 'font-weight': 'bolder'}") Deactivate
+
+									a(href = "#" @click.prevent = "populateUserToEdit(user)" variant="success" @click="modalShow=true") 
+										b-button(:pressed="true" @click="modalShow = !modalShow" variant="primary sm" v-bind:style="{'width': '105px', 'margin': '5px', 'font-weight': 'bolder'}") 
+											i(class="fa fa-edit" aria-hidden="true")
+											span(v-bind:style="{'font-weight': 'bolder', 'margin': '3px'}") Edit
+
+
+			b-modal(v-model="modalShow" hide-footer=true)
 				b-card(:title="(model.user_id ? 'Edit user ID #' + model.user_id : 'New user')")
 					form(@submit.prevent="saveUser")
 						b-form-group(label="First Name")
@@ -45,11 +46,12 @@
 						b-form-group(label="Email")
 							b-form-input(type="text" v-model="model.user_email")
 						div(slot="modal-footer" class="text-right")
-							b-btn(type="submit" variant="success" @click="modalShow=false") Save user
-							
+							b-btn(type="submit" variant="success" @click="modalShow=false") 
+								i(class="fa fa-check" v-bind:style="{'margin':'3px', 'font-weight': 'bold' }") 
+								span(v-bind:style="{'font-weight': 'bolder', 'margin': '2px'}") Save user
 							b-btn(class="btn" v-if="model.user_id ? true : false" variant="danger" @click.prevent="clear()" @click="modalShow=false")
-								i(class="fa fa-close") 
-									span Cancel
+								i(class="fa fa-close" v-bind:style="{'margin':'3px', 'font-weight': 'bold' }") 
+								span(v-bind:style="{'font-weight': 'bolder', 'margin': '2px'}") Cancel
 </template>
 
 <style lang="scss">
@@ -111,8 +113,7 @@ export default{
           user_email: this.model.user_email
         }
         await userService.updateUser(this.model.user_id, this.updateModel)
-      } else {
-        await userService.createUser(this.model)
+        
       }
       this.model = {}
       await this.refreshUsers()
