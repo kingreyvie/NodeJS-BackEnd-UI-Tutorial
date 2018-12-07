@@ -21,15 +21,15 @@
 							td {{user.user_lname}}
 							td {{user.user_role}}
 							td {{user.user_email}}
-							td(v-if="user.user_isdel==0" variant="outline-success" v-bind:style="{'color': 'green', 'text-align': 'center', 'font-weight': 'bolder'}") Active
-							td(v-else v-bind:style="{ 'color': 'red', 'text-align': 'center', 'font-weight': 'bolder' }") Inactive
+							td.status(v-if="user.user_isdel==0" variant="outline-success") Active
+							td.status(v-else v-bind:style="{ 'color': 'red' }") Inactive
 								td.text-right
-									b-button(v-if = "user.user_isdel == 1" variant="outline-success" :pressed="true" @click.prevent = "deleteUser(user.user_id,user.user_isdel)" v-bind:style="{'width': '105px', 'margin': '5px', 'font-weight': 'bolder'}")  Activate
-
-									b-button(v-else variant="outline-danger" :pressed="true" @click.prevent = "deleteUser(user.user_id,user.user_isdel)" v-bind:style="{'width': '105px', 'margin': '5px', 'font-weight': 'bolder'}") Deactivate
+									b-button.tblbtn(v-if = "user.user_isdel == 1" variant="outline-success" :pressed="true" @click.prevent = "deleteUser(user.user_id,user.user_isdel)")  Activate
+                  
+									b-button.tblbtn(v-else variant="outline-danger" :pressed="true" @click.prevent = "deleteUser(user.user_id,user.user_isdel)") Deactivate
 
 									a(href = "#" @click.prevent = "populateUserToEdit(user)" variant="success" @click="modalShow=true") 
-										b-button(:pressed="true" @click="modalShow = !modalShow" variant="primary sm" v-bind:style="{'width': '105px', 'margin': '5px', 'font-weight': 'bolder'}") 
+										b-button.tblbtn(:pressed="true" @click="modalShow = !modalShow" variant="primary sm") 
 											i(class="fa fa-edit" aria-hidden="true")
 											span(v-bind:style="{'font-weight': 'bolder', 'margin': '3px'}") Edit
 
@@ -46,15 +46,26 @@
 						b-form-group(label="Email")
 							b-form-input(type="text" v-model="model.user_email")
 						div(slot="modal-footer" class="text-right")
-							b-btn(type="submit" variant="success" @click="modalShow=false") 
-								i(class="fa fa-check" v-bind:style="{'margin':'3px', 'font-weight': 'bold' }") 
-								span(v-bind:style="{'font-weight': 'bolder', 'margin': '2px'}") Save user
-							b-btn(class="btn" v-if="model.user_id ? true : false" variant="danger" @click.prevent="clear()" @click="modalShow=false")
-								i(class="fa fa-close" v-bind:style="{'margin':'3px', 'font-weight': 'bold' }") 
-								span(v-bind:style="{'font-weight': 'bolder', 'margin': '2px'}") Cancel
+							b-btn.mdl(type="submit" variant="success" @click="modalShow=false") 
+								i(class="fa fa-check") 
+								span.mdl Save user
+							b-btn.mdl(class="btn" v-if="model.user_id ? true : false" variant="danger" @click.prevent="clear()" @click="modalShow=false")
+								i(class="fa fa-close") 
+								span.mdl Cancel
 </template>
 
 <style lang="scss">
+.status{
+  color: green;
+  text-align: center;
+  font-weight: bolder;
+}
+
+.mdl{
+  margin: 3px;
+  font-weight: bold;
+}
+
 td {
   font-weight: bold;
 }
@@ -69,6 +80,12 @@ th {
   padding: 12px 16px;
   font-size: 16px;
   cursor: pointer;
+}
+
+.tblbtn{
+  width: 105px;
+  margin: 5px;
+  font-weight: bolder;
 }
 </style>
 
@@ -112,11 +129,18 @@ export default{
           user_role: this.model.user_role,
           user_email: this.model.user_email
         }
+      if(!this.model.user_fname || !this.model.user_lname || !this.model.user_email || !this.model.user_role){
+          alert('Please Fill all the text fields')
+          this.modal('show');
+          
+      }else{
+        alert('Successfully created')
         await userService.updateUser(this.model.user_id, this.updateModel)
-        
-      }
       this.model = {}
       await this.refreshUsers()
+      }
+      }
+
     },
     async deleteUser (id, isdel) {
       if (isdel === 0 && confirm('Are you sure you want to delete this user?')) {

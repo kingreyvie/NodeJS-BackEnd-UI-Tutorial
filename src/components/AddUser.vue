@@ -38,6 +38,11 @@
 </div>
 </template>
 
+
+<style lang="scss">
+
+</style>
+
 <script>
 import userService from './userService'
 
@@ -65,7 +70,3 @@ methods: {
 }
 }
 </script>
-
-<style>
-
-</style>
