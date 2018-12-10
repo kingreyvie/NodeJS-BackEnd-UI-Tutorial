@@ -1,14 +1,5 @@
 <template lang="pug">
-.hero
-  b-card(title=('Login Form') class="bcard")
-    form(@submit.prevent = "saveUser")
-      b-form-group(label="Username")
-        b-form-input(type="text")
-      b-form-group(label="Password")
-        b-form-input(type="password")
-      div(slot="modal-footer" class="text-right")
-        b-btn.btn(type="submit" variant="success") Login
-        b-btn.btn Clear
+
 </template>
 
 <style scoped>

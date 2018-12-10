@@ -1,77 +1,66 @@
 <template lang="pug">
-	div(class="container-fluid mt-4")
-		h1.h1 User Manager
-		b-row
-			b-col
-				table(class="table table-striped table-hover" hover)
-					thead
-						tr
-							th ID
-							th First Name
-							th Last Name
-							th Role
-							th Email
-							th(v-bind:style="{ 'text-align': 'center' }") Status
-							th &nbsp;
-							
-					tbody
-						tr(v-for="user in users" :key="user.id")
-							td {{user.user_id}}
-							td {{user.user_fname}}
-							td {{user.user_lname}}
-							td {{user.user_role}}
-							td {{user.user_email}}
-							td.status(v-if="user.user_isdel==0" variant="outline-success") Active
-							td.status(v-else v-bind:style="{ 'color': 'red' }") Inactive
-								td.text-right
-									b-button.tblbtn(v-if = "user.user_isdel == 1" variant="outline-success" :pressed="true" @click.prevent = "deleteUser(user.user_id,user.user_isdel)")  Activate
-                  
-									b-button.tblbtn(v-else variant="outline-danger" :pressed="true" @click.prevent = "deleteUser(user.user_id,user.user_isdel)") Deactivate
+  .hero
+    .container-fluid
+      h1.title(style="text-align: left; margin:15px;", data-tooltip="Edit") User Manager
+      table.table.is-narrow.is-bordered.is-hoverable.is-fullwidth
+        thead
+          tr
+            th ID
+            th First Name
+            th Last Name
+            th Role
+            th Email
+            th(v-bind:style="{ 'text-align': 'center' }") Status
+            th &nbsp;
+            
+        tbody
+          tr(v-for="user in users" :key="user.id") 
+            td {{user.user_id}}
+            td {{user.user_fname}}
+            td {{user.user_lname}}
+            td {{user.user_role}}
+            td {{user.user_email}}
+            td.status(v-if="user.user_isdel==0")
+              span(class="icon is-medium")
+                i(class="fas fa-check", aria-hidden="true")
+              
+            td.status(v-else-if="user.user_isdel==1" v-bind:style="{ 'color': 'red' }")
+              span
+                i(class="fas fa-times", aria-hidden="true")
+            
+            td.text-right
+              button.button.is-success.is-outlined.tblbtn.is-rounded.tooltip.is-tooltip-success(v-if="user.user_isdel == 1", :pressed="true", @click.prevent="deleteUser(user.user_id,user.user_isdel)", data-tooltip="Enable")
+                span
+                  i(class="fas fa-eye")
 
-									a(href = "#" @click.prevent = "populateUserToEdit(user)" variant="success" @click="modalShow=true") 
-										b-button.tblbtn(:pressed="true" @click="modalShow = !modalShow" variant="primary sm") 
-											i(class="fa fa-edit" aria-hidden="true")
-											span(v-bind:style="{'font-weight': 'bolder', 'margin': '3px'}") Edit
+              button.button.is-danger.is-outlined.tblbtn.is-rounded.tooltip.is-tooltip-danger(v-else :pressed="true", @click.prevent="deleteUser(user.user_id,user.user_isdel)", data-tooltip="Disable")
+                span
+                  i(class="fas fa-eye-slash")
+
+              a(href="#", @click.prevent="populateUserToEdit(user)", variant="success", @click="showEditModal=true") 
+                button.button.is-primary.is-outlined.tblbtn.is-rounded.tooltip.is-tooltip-info(data-tooltip="Edit", :pressed="true", @click.prevent="modalShow = !modalShow") 
+                  span
+                    i(class="fas fa-edit")
 
 
-			b-modal(v-model="modalShow" hide-footer=true)
-				b-card(:title="(model.user_id ? 'Edit user ID #' + model.user_id : 'New user')")
-					form(@submit.prevent="saveUser")
-						b-form-group(label="First Name")
-							b-form-input(type="text" v-model="model.user_fname")
-						b-form-group(label="Last Name")
-							b-form-input(type="text" v-model="model.user_lname")
-						b-form-group(label="Role")
-							b-form-input(type="text" v-model="model.user_role")
-						b-form-group(label="Email")
-							b-form-input(type="text" v-model="model.user_email")
-						div(slot="modal-footer" class="text-right")
-							b-btn.mdl(type="submit" variant="success" @click="modalShow=false") 
-								i(class="fa fa-check") 
-								span.mdl Save user
-							b-btn.mdl(class="btn" v-if="model.user_id ? true : false" variant="danger" @click.prevent="clear()" @click="modalShow=false")
-								i(class="fa fa-close") 
-								span.mdl Cancel
 </template>
 
 <style lang="scss">
+  .hero {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+  }
 .status{
   color: green;
   text-align: center;
-  font-weight: bolder;
 }
-
+.statbtn{
+  margin: 3px;
+}
 .mdl{
   margin: 3px;
-  font-weight: bold;
-}
-
-td {
-  font-weight: bold;
-}
-
-th {
-  font-weight: bolder;
 }
 
 .btn {
@@ -83,10 +72,9 @@ th {
 }
 
 .tblbtn{
-  width: 105px;
   margin: 5px;
-  font-weight: bolder;
 }
+
 </style>
 
 <script>
@@ -105,9 +93,10 @@ export default{
       deleteModel: {},
       search: '',
       modalShow: false,
+      showEditModal: false
     }
 	},
-	
+
   async created () {
     this.refreshUsers()
 	},

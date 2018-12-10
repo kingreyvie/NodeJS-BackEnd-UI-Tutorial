@@ -6,6 +6,8 @@ import UserManager from '@/components/UserManager'
 import AddUser from '@/components/AddUser'
 Vue.use(Router)
 export default new Router({
+  mode:'history',
+
   routes: [{
     path: '/hello',
     name: 'Hello',

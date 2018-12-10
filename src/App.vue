@@ -1,17 +1,27 @@
 /* eslint-plugin-disable */
 <template lang="pug">
-  div(id="app")
-    b-navbar(toggleable="md" type="dark" variant="success")
-      b-navbar-toggle(target="nav_collapse")
-      b-navbar-brand(to="#") My Vue App
-      b-collapse(is-nav id="nav_collapse")
-        b-navbar-nav
-          b-nav-item(to="/hello") Home
-          b-nav-item(to="/user-manager") User Manager
-          b-nav-item(to="/adduser") Add User
-        b-navbar-nav(right)
-          b-nav-item(to="/login") Log in
-    router-view
+div
+  nav.navbar.is-info(role="navigation", aria-label="main navigation")
+    .navbar-brand
+      a.navbar-item(href="#")
+        img(src="https://bulma.io/images/bulma-logo.png" alt="Bulma")
+
+      a.navbar-burger(role="button", aria-label="menu", aria-expanded="false")
+        span(aria-hidden="true")
+
+    .navbar-menu#navbarBasicExample
+      .navbar-start
+        a.navbar-item(href="/hello") Home
+        a.navbar-item(href="/user-manager") User Manager
+        a.navbar-item(href="/adduser") Add User
+
+      .navbar-end
+        .buttons
+          a.button.is-warning
+            strong Sign up
+          a.button.is-primary(href="/login")
+            strong Log in
+  router-view
 </template>
 
 

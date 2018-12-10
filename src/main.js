@@ -2,20 +2,19 @@
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue'
 import App from './App'
-import BootstrapVue from 'bootstrap-vue'
 import router from './router'
-import 'bootstrap/dist/css/bootstrap.css'
-import 'bootstrap-vue/dist/bootstrap-vue.css'
-import Buefy from 'buefy';
-
-Vue.use(Buefy)
-Vue.use(BootstrapVue)
-Vue.config.productionTip = false
+import Bulma from 'bulma'
+import 'bulma-tooltip'
+import Tooltips from 'vue-bulma-tooltips'
+Vue.use(Tooltips)
+Tooltips.init(Vue)
+Vue.use(Bulma)
 
 /* eslint-disable no-new */
+
 new Vue({
   el: '#app',
   router,
   template: '<App/>',
-  components: { App }
-})
+  components: { App },
+});

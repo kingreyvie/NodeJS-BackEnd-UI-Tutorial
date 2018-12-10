@@ -1,6 +1,8 @@
 <template>
+<div class="hero">
+<div class="container">
 <div class="mx-auto" style="width: 500px; height: 800px; margin: 100px;">
-    <form @submit.prevent = "saveUser" >
+    <b-form @submit.prevent = "saveUser" >
     <h2>New User</h2>
     <b-card style="max-width: 30rem;">
         <b-form-group label = "First Name">
@@ -33,8 +35,10 @@
             </b-btn>
         </div>
     </b-card>
-    </form>
+    </b-form>
     
+</div>
+</div>
 </div>
 </template>
 
