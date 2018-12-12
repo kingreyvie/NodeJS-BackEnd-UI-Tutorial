@@ -5,9 +5,6 @@ import App from './App'
 import router from './router'
 import Bulma from 'bulma'
 import 'bulma-tooltip'
-import Tooltips from 'vue-bulma-tooltips'
-Vue.use(Tooltips)
-Tooltips.init(Vue)
 Vue.use(Bulma)
 
 /* eslint-disable no-new */

@@ -4,12 +4,13 @@ import login from '@/components/login'
 import Hello from '@/components/Hello'
 import UserManager from '@/components/UserManager'
 import AddUser from '@/components/AddUser'
+import EditUserModal from '@/Modals/EditUserModal'
 Vue.use(Router)
 export default new Router({
   mode:'history',
 
   routes: [{
-    path: '/hello',
+    path: '/',
     name: 'Hello',
     component: Hello
   },
@@ -27,6 +28,11 @@ export default new Router({
     path: '/adduser',
     name: 'AddUser',
     component: AddUser
+  }, 
+  {
+    path: '/editusermodal',
+    name: 'EditUserModal',
+    component: EditUserModal
   }
   ]
 })

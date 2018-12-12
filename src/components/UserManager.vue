@@ -1,57 +1,107 @@
 <template lang="pug">
-  .hero
-    .container-fluid
-      h1.title(style="text-align: left; margin:15px;", data-tooltip="Edit") User Manager
-      table.table.is-narrow.is-bordered.is-hoverable.is-fullwidth
-        thead
-          tr
-            th ID
-            th First Name
-            th Last Name
-            th Role
-            th Email
-            th(v-bind:style="{ 'text-align': 'center' }") Status
-            th &nbsp;
+    .hero
+        span
+        h1 Users
+        .field.has-addons
+          .control
+            input.input(type="text" placeholder="Search ID")
+          .control
+            a.button.is-info Search
             
-        tbody
-          tr(v-for="user in users" :key="user.id") 
-            td {{user.user_id}}
-            td {{user.user_fname}}
-            td {{user.user_lname}}
-            td {{user.user_role}}
-            td {{user.user_email}}
-            td.status(v-if="user.user_isdel==0")
-              span(class="icon is-medium")
-                i(class="fas fa-check", aria-hidden="true")
+        table.table.is-fullwidth.is-narrow.is-bordered.is-hoverable.is-mobile.is-centered
+          thead.subtitle
+            tr
+              th ID
+              th First Name
+              th Last Name
+              th Role
+              th Email
+              th(v-bind:style="{ 'text-align': 'center' }") Status
+              th &nbsp;
               
-            td.status(v-else-if="user.user_isdel==1" v-bind:style="{ 'color': 'red' }")
-              span
-                i(class="fas fa-times", aria-hidden="true")
-            
-            td.text-right
-              button.button.is-success.is-outlined.tblbtn.is-rounded.tooltip.is-tooltip-success(v-if="user.user_isdel == 1", :pressed="true", @click.prevent="deleteUser(user.user_id,user.user_isdel)", data-tooltip="Enable")
+          tbody
+            tr(v-for="user in users" :key="user.id") 
+              td {{user.user_id}}
+              td {{user.user_fname}}
+              td {{user.user_lname}}
+              td {{user.user_role}}
+              td {{user.user_email}}
+              td.status(v-if="user.user_isdel==0")
+                span(class="icon is-medium")
+                  i(class="fas fa-check", aria-hidden="true")
+                
+              td.status(v-else-if="user.user_isdel==1" v-bind:style="{ 'color': 'red' }")
                 span
+                  i(class="fas fa-times", aria-hidden="true")
+              
+              td.text-right
+                button.button.is-success.is-outlined.tblbtn.is-rounded.tooltip.is-tooltip-success(v-if="user.user_isdel == 1", :pressed="true", @click.prevent="deleteUser(user.user_id,user.user_isdel)", data-tooltip="Enable")
                   i(class="fas fa-eye")
-
-              button.button.is-danger.is-outlined.tblbtn.is-rounded.tooltip.is-tooltip-danger(v-else :pressed="true", @click.prevent="deleteUser(user.user_id,user.user_isdel)", data-tooltip="Disable")
-                span
-                  i(class="fas fa-eye-slash")
-
-              a(href="#", @click.prevent="populateUserToEdit(user)", variant="success", @click="showEditModal=true") 
-                button.button.is-primary.is-outlined.tblbtn.is-rounded.tooltip.is-tooltip-info(data-tooltip="Edit", :pressed="true", @click.prevent="modalShow = !modalShow") 
                   span
-                    i(class="fas fa-edit")
+                button.button.is-danger.is-outlined.tblbtn.is-rounded.tooltip.is-tooltip-danger(v-else :pressed="true", @click.prevent="deleteUser(user.user_id,user.user_isdel)", data-tooltip="Disable")
+                  span
+                    i(class="fas fa-eye-slash")
+                a(ref = "#" @click.prevent = "populateUserToEdit(user)" variant="success" )
+                  button.button.is-primary.is-outlined.tblbtn.is-rounded.tooltip.is-tooltip-info(data-tooltip="Edit", :pressed="true", @click="openEdit") 
+                    span
+                      i(class="fas fa-edit")
+
+        .modal(:class="editActive")
+          .modal-background
+          .modal-content(style="background-color: white; margin: 50px;")
+            form(@submit.prevent="saveUser" style="margin: 50px")
+              h2.is-rounded(:title="(model.user_id ? 'Edit user ID #' + model.user_id : 'New user')")  Edit User ID # {{model.user_id}}
+              .field
+                label.label First Name
+                .control
+                  input.input.is-rounded(type="text" placeholder="First Name" v-model = "model.user_fname")
+              .field
+                label.label Last Name
+                .control
+                  input.input.is-rounded(type="text" placeholder="Last Name" v-model = "model.user_lname")
+              .field
+                label.label Role
+                .control
+                  input.input.is-rounded(type="text" placeholder="Role" v-model = "model.user_role")
+              .field
+                label.label Email
+                .control
+                  input.input.is-rounded(type="text" placeholder="Email" v-model = "model.user_email")
+
+              .field.buttons.is-right
+
+                button.button.is-danger.is-rounded(@click.prevent="close")
+                  span(class="icon") 
+                    i(class="fas fa-times") 
+                  span Close 
+                  
+                button.button.is-info.is-rounded(@click.prevent="clear()")
+                  span(class="icon") 
+                    i(class="fas fa-undo") 
+                  span Clear
 
 
+                button.button.is-success.is-rounded(type="submit" variant="success")
+                  span(class="icon") 
+                    i(class="fas fa-edit") 
+                  span Save user
+
+          router-view
 </template>
 
 <style lang="scss">
-  .hero {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-  }
+.hero {
+  margin-left: 50px;
+  margin-right: 50px;
+}
+.hero h1{
+  font-size: 50px;
+  margin: 10px;
+}
+h2{
+  font-size:35px;
+  margin-bottom: 5%;
+}
 .status{
   color: green;
   text-align: center;
@@ -74,7 +124,6 @@
 .tblbtn{
   margin: 5px;
 }
-
 </style>
 
 <script>
@@ -82,8 +131,7 @@
 		import EditUserModal from '../Modals/EditUserModal'
 
 export default{
-
-  data () {
+  data () {    
     return {
       loading: false,
       users: [],
@@ -93,18 +141,29 @@ export default{
       deleteModel: {},
       search: '',
       modalShow: false,
-      showEditModal: false
+      showEditModal: false,
+      screen: screen.width,
+      editActive: ''
     }
 	},
 
   async created () {
     this.refreshUsers()
-	},
+  },
+
+  components: {
+    EditUserModal
+  },
 	
   methods: {
     async refreshUsers () {
       this.loading = true
       this.users = (await userService.getUsers()).data.allUser
+      this.loading = false
+    },
+    async refreshUser(){
+      this.loading = true
+      this.users = (await userService.getUser()).data.allUser
       this.loading = false
     },
     async populateUserToEdit (user) {
@@ -120,16 +179,22 @@ export default{
         }
       if(!this.model.user_fname || !this.model.user_lname || !this.model.user_email || !this.model.user_role){
           alert('Please Fill all the text fields')
-          this.modal('show');
           
       }else{
-        alert('Successfully created')
+        alert('Successfully Updated')
         await userService.updateUser(this.model.user_id, this.updateModel)
-      this.model = {}
-      await this.refreshUsers()
+        this.model = {}
+        await this.refreshUsers()
+        await this.close()
       }
       }
 
+    },
+    openEdit(){
+        this.editActive = 'is-active'
+    },
+    close(){
+      this.editActive = ''
     },
     async deleteUser (id, isdel) {
       if (isdel === 0 && confirm('Are you sure you want to delete this user?')) {
@@ -152,7 +217,10 @@ export default{
       await this.refreshUser
     },
     async clear () {
-      this.model = {}
+      this.model.user_fname =''
+      this.model.user_lname =''
+      this.model.user_role = ''
+      this.model.user_email =''
     }
   }
 
