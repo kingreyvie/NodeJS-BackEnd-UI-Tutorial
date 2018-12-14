@@ -1,5 +1,5 @@
 <template>
-<form class="hero is-link" @submit.prevent = "saveUser">
+<form class="hero is-link" @submit.prevent = "saveUser" style="border-radius: 30px;" >
 <div class="hero2">
   <h1 class="title">New User</h1>
 <div class="field">
@@ -14,11 +14,19 @@
     <input class="input is-rounded" type="text" placeholder="Last Name" v-model = "model.user_lname" >
   </div>
 </div>
+
 <div class="field">
-  <label class="label">Role</label>
-  <div class="control">
-    <input class="input is-rounded" type="text" placeholder="Role" v-model = "model.user_role">
+<label class="label">Role</label>  
+<div class="control">
+  <div class="select is-dark is-rounded">
+    <select type="text" placeholder="Last Name" v-model = "model.user_role">
+      <option>QA</option>
+      <option>Infra</option>
+      <option>Dev</option>
+    </select>
   </div>
+</div>
+
 </div>
 <div class="field">
   <label class="label">Email</label>

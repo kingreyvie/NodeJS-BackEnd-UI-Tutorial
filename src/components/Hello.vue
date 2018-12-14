@@ -6,9 +6,10 @@
           strong(style="color: blue" ) Bulma 
           span and 
           strong(style="color: green") Vue.js
-      img.tgl(src="https://vignette.wikia.nocookie.net/dragonball/images/b/bc/Bulma_B.jpg/revision/latest?cb=20130219233124")
-      img.tgl.is-small(src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Vue.js_Logo_2.svg/1200px-Vue.js_Logo_2.svg.png")
-      button.button(v-model=Clicked @click="clickmethod") toggle 
+      img(:class="{ 'tgl': Clicked }" src="https://vignette.wikia.nocookie.net/dragonball/images/b/bc/Bulma_B.jpg/revision/latest?cb=20130219233124")
+      img.is-small(:class="{ 'tgl': Clicked }" src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Vue.js_Logo_2.svg/1200px-Vue.js_Logo_2.svg.png")
+      button.button(@click="clickmethod") Alisin si Bulma at Vue.js 
+
 </template>
 
 <script>
@@ -20,7 +21,11 @@ export default {
   },
   methods: {
     clickmethod(){
-      this.Clicked = true;
+      if(this.Clicked){
+        this.Clicked =false;
+      }else{
+        this.Clicked = true;
+      }
     }
   }
 }

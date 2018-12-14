@@ -4,13 +4,12 @@
         h1 Users
         .field.has-addons
           .control
-            input.input(type="text" placeholder="Search ID")
+            input.input(placeholder="Search ID")
           .control
-            a.button.is-info Search
-            
-        table.table.is-fullwidth.is-narrow.is-bordered.is-hoverable.is-mobile.is-centered(@row-clicked="myHandlerMethod")
+            a.button.is-info(v-model="search") Search
+        table.table.is-fullwidth.is-narrow.is-bordered.is-hoverable.is-mobile.is-centered()
           thead.subtitle
-            tr(@row-clicked="myHandlerMethod")
+            tr
               th ID
               th First Name
               th Last Name
@@ -29,14 +28,15 @@
               td.status(v-if="user.user_isdel==0")
                 span(class="icon is-medium")
                   i(class="fas fa-check", aria-hidden="true")
-                
+                  span(style="margin-left:5px;") Active
               td.status(v-else-if="user.user_isdel==1" v-bind:style="{ 'color': 'red' }")
                 span
                   i(class="fas fa-times", aria-hidden="true")
+                  span(style="margin-left:5px;") Not Active
               
-              td.text-right
+              td.has-text-centered
                 button.button.is-success.is-outlined.tblbtn.is-rounded.tooltip.is-tooltip-success(v-if="user.user_isdel == 1", :pressed="true", @click.prevent="deleteUser(user.user_id,user.user_isdel)", data-tooltip="Enable")
-                  i(class="fas fa-eye")
+                  i(class="fas fa-eye") 
                   span
                 button.button.is-danger.is-outlined.tblbtn.is-rounded.tooltip.is-tooltip-danger(v-else :pressed="true", @click.prevent="deleteUser(user.user_id,user.user_isdel)", data-tooltip="Disable")
                   span
@@ -47,10 +47,11 @@
                       i(class="fas fa-edit")
 
         .modal(:class="editActive")
-          .modal-background
-          .modal-content(style="background-color: white; margin: 50px;")
-            form(@submit.prevent="saveUser" style="margin: 50px")
-              h2.is-rounded(:title="(model.user_id ? 'Edit user ID #' + model.user_id : 'New user')")  Edit User ID # {{model.user_id}}
+          .modal-background.is-rounded
+          .modal-content.is-rounded(style="background-color: white; margin: 50px; border-radius: 30px; overflow-y: hidden")
+            form(@submit.prevent="saveUser" style="margin: 50px; height: 600px; overflow-y: hidden")
+              h2.is-rounded(:title="(model.user_id ? 'Edit user ID #' + model.user_id : 'New user')")  Edit User ID # 
+                span(style="color: green; font-weight: bolder;") {{model.user_id}}
               .field
                 label.label First Name
                 .control
@@ -62,14 +63,17 @@
               .field
                 label.label Role
                 .control
-                  input.input.is-rounded(type="text" placeholder="Role" v-model = "model.user_role")
+                  .select.is-medium(style="margin-bottom: 20px;")
+                    select.is-rounded.is-fullwidth(type="text" placeholder="Last Name" v-model = "model.user_role")
+                      option QA
+                      option Infra
+                      option Dev
               .field
                 label.label Email
                 .control
                   input.input.is-rounded(type="text" placeholder="Email" v-model = "model.user_email")
 
-              .field.buttons.is-right
-
+              .field.buttons.is-right(style="margin-top: 30px")
                 button.button.is-danger.is-rounded(@click.prevent="close")
                   span(class="icon") 
                     i(class="fas fa-times") 
@@ -90,6 +94,16 @@
 </template>
 
 <style lang="scss">
+select{
+  width: 100px !important;
+}
+title{
+  margin-bottom:10px;
+}
+input[type="text"], select{
+  margin-bottom: 15px;
+  border: 1px solid rgb(24, 24, 24) !important;
+}
 .hero {
   margin-left: 50px;
   margin-right: 50px;
@@ -123,7 +137,7 @@ h2{
 
 .tblbtn{
   margin: 5px;
-}
+  }
 </style>
 
 <script>
@@ -156,9 +170,6 @@ export default{
   },
 	
   methods: {
-    async myHandlerMethod(clickedItem) {
-        console.log(clickedItem)
-    },
     async refreshUsers () {
       this.loading = true
       this.users = (await userService.getUsers()).data.allUser
