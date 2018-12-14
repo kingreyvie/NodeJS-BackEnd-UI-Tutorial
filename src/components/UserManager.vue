@@ -1,6 +1,6 @@
 <template lang="pug">
     .hero
-        span
+      span
         h1 Users
         .field.has-addons
           .control
@@ -8,9 +8,9 @@
           .control
             a.button.is-info Search
             
-        table.table.is-fullwidth.is-narrow.is-bordered.is-hoverable.is-mobile.is-centered
+        table.table.is-fullwidth.is-narrow.is-bordered.is-hoverable.is-mobile.is-centered(@row-clicked="myHandlerMethod")
           thead.subtitle
-            tr
+            tr(@row-clicked="myHandlerMethod")
               th ID
               th First Name
               th Last Name
@@ -156,6 +156,9 @@ export default{
   },
 	
   methods: {
+    async myHandlerMethod(clickedItem) {
+        console.log(clickedItem)
+    },
     async refreshUsers () {
       this.loading = true
       this.users = (await userService.getUsers()).data.allUser

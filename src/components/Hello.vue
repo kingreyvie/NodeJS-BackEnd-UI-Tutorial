@@ -1,23 +1,42 @@
 <template lang="pug">
   .hero
-    h1.title WELCOME
-      p.subtitle This User Manager Single Webpage is created with 
-        strong(style="color: blue") Bulma 
-        span and 
-        strong(style="color: green") Vue.js
-    span
-      img(src="https://vignette.wikia.nocookie.net/dragonball/images/b/bc/Bulma_B.jpg/revision/latest?cb=20130219233124", style="width: 200px;")
-      img(src="https://www.symbols.com/gi.php?type=1&id=1608" style="width: 400px; height: 400px;")
-      img(src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Vue.js_Logo_2.svg/1200px-Vue.js_Logo_2.svg.png", style="width: 400px;")
+    .container
+      h1.title WELCOME
+        p.subtitle This User Manager Single Webpage is created with 
+          strong(style="color: blue" ) Bulma 
+          span and 
+          strong(style="color: green") Vue.js
+      img.tgl(src="https://vignette.wikia.nocookie.net/dragonball/images/b/bc/Bulma_B.jpg/revision/latest?cb=20130219233124")
+      img.tgl.is-small(src="https://upload.wikimedia.org/wikipedia/commons/thumb/9/95/Vue.js_Logo_2.svg/1200px-Vue.js_Logo_2.svg.png")
+      button.button(v-model=Clicked @click="clickmethod") toggle 
 </template>
 
+<script>
+export default {
+  data(){
+    return{
+      Clicked: false
+    }
+  },
+  methods: {
+    clickmethod(){
+      this.Clicked = true;
+    }
+  }
+}
+</script>
+
 <style scoped lang="scss">
+.is-small{
+  width: 200px; 
+}
 .hero {
-  height: 90vh;
+  margin: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
   text-align: center;
+}
   .lead {
     font-weight: 200;
     font-size: 1.5rem;
@@ -29,5 +48,7 @@
   margin: 10px;
   font-size: 30px;
 }
+.tgl{
+  display: none;
 }
 </style>
