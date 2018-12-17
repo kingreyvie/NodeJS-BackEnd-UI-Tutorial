@@ -14,17 +14,17 @@
 
 <script>
 export default {
-  data(){
-    return{
+  data() {
+    return {
       Clicked: false
     }
   },
   methods: {
-    clickmethod(){
-      if(this.Clicked){
-        this.Clicked =false;
-      }else{
-        this.Clicked = true;
+    clickmethod() {
+      if (this.Clicked) {
+        this.Clicked = 'hidden';
+      } else {
+        this.Clicked = 'true';
       }
     }
   }
@@ -32,9 +32,11 @@ export default {
 </script>
 
 <style scoped lang="scss">
-.is-small{
-  width: 200px; 
+
+.is-small {
+  width: 200px;
 }
+
 .hero {
   margin: 10px;
   display: flex;
@@ -42,18 +44,23 @@ export default {
   justify-content: center;
   text-align: center;
 }
-  .lead {
-    font-weight: 200;
-    font-size: 1.5rem;
-  }
-.title{
+
+.lead {
+  font-weight: 200;
+  font-size: 1.5rem;
+}
+
+.title {
   font-size: 70px;
 }
-.subtitle{
+
+.subtitle {
   margin: 10px;
   font-size: 30px;
 }
-.tgl{
+
+.tgl {
   display: none;
 }
+
 </style>

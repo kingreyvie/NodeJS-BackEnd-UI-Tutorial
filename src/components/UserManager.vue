@@ -10,16 +10,22 @@
         table.table.is-fullwidth.is-narrow.is-bordered.is-hoverable.is-mobile.is-centered()
           thead.subtitle
             tr
+              th &nbsp;
               th ID
               th First Name
               th Last Name
               th Role
               th Email
-              th(v-bind:style="{ 'text-align': 'center' }") Status
-              th &nbsp;
+              th.has-text-centered Status
+              th.has-text-centered Actions
               
           tbody
             tr(v-for="user in users" :key="user.id") 
+              td
+                button.button.is-dark.is-rounded(@click.prevent="close")
+                  span(class="icon") 
+                    i(class="fas fa-eye") 
+                  span
               td {{user.user_id}}
               td {{user.user_fname}}
               td {{user.user_lname}}
@@ -35,7 +41,10 @@
                   span(style="margin-left:5px;") Not Active
               
               td.has-text-centered
-                button.button.is-success.is-outlined.tblbtn.is-rounded.tooltip.is-tooltip-success(v-if="user.user_isdel == 1", :pressed="true", @click.prevent="deleteUser(user.user_id,user.user_isdel)", data-tooltip="Enable")
+                button.button.is-success.is-outlined.tblbtn.is-rounded.tooltip.is-tooltip-success(
+                  v-if="user.user_isdel == 1", :pressed="true", 
+                  @click.prevent="deleteUser(user.user_id,user.user_isdel)", 
+                  data-tooltip="Enable")
                   i(class="fas fa-eye") 
                   span
                 button.button.is-danger.is-outlined.tblbtn.is-rounded.tooltip.is-tooltip-danger(v-else :pressed="true", @click.prevent="deleteUser(user.user_id,user.user_isdel)", data-tooltip="Disable")
