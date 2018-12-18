@@ -7,7 +7,7 @@
             input.input(placeholder="Search ID")
           .control
             a.button.is-info(v-model="search") Search
-        table.table.is-fullwidth.is-narrow.is-bordered.is-hoverable.is-mobile.is-centered()
+        table.table.is-fullwidth.is-narrow.is-bordered.is-hoverable.is-mobile.is-centered
           thead.subtitle
             tr
               th &nbsp;
@@ -21,37 +21,37 @@
               
           tbody
             tr(v-for="user in users" :key="user.id") 
-              td
-                button.button.is-dark.is-rounded(@click.prevent="close")
-                  span(class="icon") 
-                    i(class="fas fa-eye") 
+              td.has-text-centered
+                button.button.tblicon.is-dark.is-rounded.tooltip.is-tooltip-dark(data-tooltip="View")
                   span
+                    i(class="fas fa-eye")
               td {{user.user_id}}
               td {{user.user_fname}}
               td {{user.user_lname}}
               td {{user.user_role}}
               td {{user.user_email}}
-              td.status(v-if="user.user_isdel==0")
-                span(class="icon is-medium")
-                  i(class="fas fa-check", aria-hidden="true")
-                  span(style="margin-left:5px;") Active
-              td.status(v-else-if="user.user_isdel==1" v-bind:style="{ 'color': 'red' }")
+              td.status.has-text-centered(v-if="user.user_isdel==0")
                 span
-                  i(class="fas fa-times", aria-hidden="true")
-                  span(style="margin-left:5px;") Not Active
+                  i(class="fas fa-check", aria-hidden="true")
+                  span Active
+                  
+              td.status.has-text-centered(v-else-if="user.user_isdel==1" :style="{ 'color': 'red' }")
+                span
+                  i.iconspc(class="fas fa-times", aria-hidden="true")
+                  span Not Active
               
               td.has-text-centered
                 button.button.is-success.is-outlined.tblbtn.is-rounded.tooltip.is-tooltip-success(
                   v-if="user.user_isdel == 1", :pressed="true", 
                   @click.prevent="deleteUser(user.user_id,user.user_isdel)", 
-                  data-tooltip="Enable")
-                  i(class="fas fa-eye") 
-                  span
-                button.button.is-danger.is-outlined.tblbtn.is-rounded.tooltip.is-tooltip-danger(v-else :pressed="true", @click.prevent="deleteUser(user.user_id,user.user_isdel)", data-tooltip="Disable")
-                  span
-                    i(class="fas fa-eye-slash")
+                  data-tooltip="Enable") Activate
+                  
+                button.button.is-danger.is-outlined.tblbtn.is-rounded.tooltip.is-tooltip-danger(
+                  v-else :pressed="true", 
+                  @click.prevent="deleteUser(user.user_id,user.user_isdel)", 
+                  data-tooltip="Disable") Deactivate
                 a(ref = "#" @click.prevent = "populateUserToEdit(user)" variant="success" )
-                  button.button.is-primary.is-outlined.tblbtn.is-rounded.tooltip.is-tooltip-info(data-tooltip="Edit", :pressed="true", @click="openEdit") 
+                  button.button.is-primary.is-outlined.tblicon.is-rounded.tooltip.is-tooltip-info(data-tooltip="Edit", :pressed="true", @click="openEdit") 
                     span
                       i(class="fas fa-edit")
 
@@ -121,6 +121,9 @@ input[type="text"], select{
   font-size: 50px;
   margin: 10px;
 }
+.iconspc{
+  margin-right: 3px;
+}
 h2{
   font-size:35px;
   margin-bottom: 5%;
@@ -130,9 +133,6 @@ h2{
   text-align: center;
 }
 .statbtn{
-  margin: 3px;
-}
-.mdl{
   margin: 3px;
 }
 
@@ -145,6 +145,11 @@ h2{
 }
 
 .tblbtn{
+  margin: 5px;
+  width: 105px;
+  font-size: 16px;
+  }
+.tblicon{
   margin: 5px;
   }
 </style>
