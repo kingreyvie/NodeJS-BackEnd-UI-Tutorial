@@ -63,7 +63,7 @@
         view-user-modal(
           :viewmodel="model",
           ref="viewUserModalRef",
-          v-on:viewUser="viewUser")
+          v-on:viewUser="viewUsers")
         
       router-view
 </template>
