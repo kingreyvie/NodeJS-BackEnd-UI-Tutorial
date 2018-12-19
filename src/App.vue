@@ -1,6 +1,6 @@
 <template lang="pug">
 div
-  nav.navbar.is-link(role="navigation", aria-label="main navigation")
+  nav.navbar.is-danger(role="navigation", aria-label="main navigation")
     .navbar-brand
       a.navbar-item(href="/")
         img(src="https://bulma.io/images/bulma-logo-white.png" alt="Bulma")
@@ -12,10 +12,14 @@ div
 
     .navbar-menu#navbarBasicExample
       .navbar-start
-        a.navbar-item(href="/") Home
-        a.navbar-item(href="/user-manager") Users
-        a.navbar-item(href="/adduser") Add User
-        a.navbar-item(href="/editusermodal") Edit User Modal
+        router-link.as(to="/")
+          a.navbar-item Home
+        router-link.as(to="/user-manager")
+          a.navbar-item Users
+        router-link.as(to="/adduser")
+          a.navbar-item Add User
+        router-link.as(to="/editusermodal")
+          a.navbar-item Edit User Modal
 
       .navbar-end
         .buttons
@@ -28,22 +32,44 @@ div
 
 
 <script>
+import Hello from './components/Hello.vue'
 export default {
-  name: 'app'
+  name: 'app',
+  components: {
+    'hello-comp': Hello
+  },
+  data(){
+    return{
+      component: 'hello-comp'
+    }
+  }
 }
 </script>
 
-<style>
+<style lang="scss">
+@import url('https://fonts.googleapis.com/css?family=Thasadith');
+@import url('https://fonts.googleapis.com/css?family=Cantarell');
+$font: 'Cantarell';
 .bmargin{
   margin-right:15px;
 }
 #app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
+  font-family: $font;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
 }
-
-html{
+.as{
+  font-weight:bolder;
+  font-size: 20px;
+  font-family: 'Thasadith';
+}
+body{
+  font-family: $font;
+  font-size:18px;
+}
+span{
+  font-family: $font;
+  font-size: 18px;
 }
 </style>

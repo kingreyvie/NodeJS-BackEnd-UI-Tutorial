@@ -1,69 +1,50 @@
-<template>
+<template lang="pug">
+  form.hero(@submit.prevent='saveUser')
+    .hero2
+      h1.title New User
+      .field
+        label.label First Name
+        .control
+          input.input.is-rounded(type='text' placeholder='First Name' v-model='model.user_fname')
+      .field
+        label.label Last Name
+        .control
+          input.input.is-rounded(type='text' placeholder='Last Name' v-model='model.user_lname')
+      .field
+        label.label Role
+        .control
+          .select.is-dark.is-rounded
+            select(type='text' placeholder='Last Name' v-model='model.user_role')
+              option QA
+              option Infra
+              option Dev
+      .field
+        label.label Email
+        .control
+          input.input.is-rounded(type='text' placeholder='Email' v-model='model.user_email')
+      .buttons.is-right
 
-<form class="hero is-link" @submit.prevent="saveUser">
-  <div class="hero2">
-    <h1 class="title">New User</h1>
-    <div class="field">
-      <label class="label">First Name</label>
-      <div class="control">
-        <input class="input is-rounded" type="text" placeholder="First Name" v-model="model.user_fname">
-      </div>
-    </div>
+        button.button.is-warning.is-rounded(@click.prevent='clear()')
+          span
+            i.fas.fa-undo
+            |  Clear
 
-    <div class="field">
-      <label class="label">Last Name</label>
-      <div class="control">
-        <input class="input is-rounded" type="text" placeholder="Last Name" v-model="model.user_lname">
-      </div>
-    </div>
-
-    <div class="field">
-      <label class="label">Role</label>
-      <div class="control">
-        <div class="select is-dark is-rounded">
-          <select type="text" placeholder="Last Name" v-model="model.user_role">
-            <option>QA</option>
-            <option>Infra</option>
-            <option>Dev</option>
-          </select>
-        </div>
-      </div>
-
-    </div>
-    <div class="field">
-      <label class="label">Email</label>
-      <div class="control">
-        <input class="input is-rounded" type="text" placeholder="Email" v-model="model.user_email">
-      </div>
-    </div>
-
-
-    <div class="buttons is-right">
-      <button class="button is-success is-rounded">
-        <span>
-          <i class="fa fa-check"></i>
-          Save User
-        </span>
-      </button>
-
-      <button class="button is-warning is-rounded" @click.prevent="clear()">
-        <span>
-          <i class="fas fa-undo"></i> Clear
-        </span>
-      </button>
-    </div>
-  </div>
-</form>
+        button.button.is-success.is-rounded
+          span
+            i.fa.fa-check
+            |  Save User
+    router-view
 </template>
 
 
-<style lang="scss">
+<style lang="scss" scoped>
 .hero {
   margin-left: 30%;
   margin-right: 30%;
   margin-top: 5%;
   margin-bottom: 10%;
   border-radius: 30px;
+  background-color: rgba(245, 89, 89, 0.804);
 }
 
 .hero2 {
@@ -77,7 +58,10 @@
   margin-bottom: 3%;
 }
 
-.label {
+.label{
+  color: white;
+}
+.title{
   color: white;
 }
 </style>
