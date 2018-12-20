@@ -4,7 +4,7 @@
         .modal-background.is-rounded(@click.prevent="hideModal()")
         .modal-content.is-rounded(style="background-color: white; margin: 50px; border-radius: 30px; overflow-y: hidden")
           form(@submit.prevent="viewUser()" style="margin: 50px; height: 600px; overflow-y: hidden")
-            h1.title ID: {{viewmodel.user_id}}
+            h1.title The Account {{msg}}
             h2.subtitle Name: {{viewmodel.user_fname}} {{viewmodel.user_lname}}
             h2.subtitle Role: {{viewmodel.user_role}}
             h2.subtitle Email: {{viewmodel.user_email}}
@@ -19,7 +19,7 @@
 </template>
 <script>
 export default {
-  props: ['viewmodel'],
+  props: ['msg'],
 
   data() {
     return {
@@ -28,6 +28,9 @@ export default {
   },
 
   methods: {
+    async alert() {
+        this.$dialog.alert('Everything looks fine!')
+    },
     async showModal(){
       this.viewActive = "is-active"
     },

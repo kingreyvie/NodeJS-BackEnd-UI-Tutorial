@@ -5,8 +5,10 @@ import App from './App'
 import router from './router'
 import Bulma from 'bulma'
 import 'bulma-tooltip'
-Vue.use(Bulma)
+import Buefy from 'buefy'
+import 'buefy/dist/buefy.css'
 
+Vue.use(Buefy)
 /* eslint-disable no-new */
 
 new Vue({

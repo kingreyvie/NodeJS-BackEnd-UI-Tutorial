@@ -2,69 +2,23 @@
     .hero
       span
         h1.title Employees
-        .field.has-addons
-          .control
-            input.input(placeholder="Search ID")
-          .control
-            a.button.is-info(v-model="search") Search
-        table.table.is-fullwidth.is-narrow.is-bordered.is-hoverable.is-mobile.is-centered
-          thead.subtitle
-            tr
-              th.has-text-centered View
-              th ID
-              th First Name
-              th Last Name
-              th Role
-              th Email
-              th.has-text-centered Status
-              th.has-text-centered Actions
-              
-          tbody
-            tr(v-for="user in users" :key="user.id") 
-              td.has-text-centered
-                button.button.tblicon.is-dark.is-rounded.tooltip.is-tooltip-dark(data-tooltip="View" @click.prevent="openView")
-                  span
-                    i(class="fas fa-eye")
-              td {{user.user_id}}
-              td {{user.user_fname}}
-              td {{user.user_lname}}
-              td {{user.user_role}}
-              td {{user.user_email}}
-              td.status.has-text-centered(v-if="user.user_isdel==0")
-                span
-                  i(class="fas fa-check", aria-hidden="true")
-                  span Active
-                  
-              td.status.has-text-centered(v-else-if="user.user_isdel==1" :style="{ 'color': 'red' }")
-                span
-                  i.iconspc(class="fas fa-times", aria-hidden="true")
-                  span Not Active
-              
-              td.has-text-centered
-                button.button.is-success.is-outlined.tblbtn.is-rounded(
-                  v-if="user.user_isdel == 1", :pressed="true", 
-                  @click.prevent="deleteUser(user.user_id,user.user_isdel)")
-                  span Activate
-                  
-                button.button.is-danger.is-outlined.tblbtn.is-rounded(
-                  v-else :pressed="true", 
-                  @click.prevent="deleteUser(user.user_id,user.user_isdel)") 
-                  span Deactivate
-                a(ref = "#" @click.prevent = "populateUserToEdit(user)" variant="success" )
-                  button.button.is-primary.is-outlined.tblicon.is-rounded.tooltip.is-tooltip-info(data-tooltip="Edit", :pressed="true", @click="openEdit") 
-                    span
-                      i(class="fas fa-edit")
-        
+
+        user-lists(
+          :user="users" 
+          ref="userListRef"
+          )
         edit-user-modal(
           :editmodel="model",
           ref="editUserModalRef",
-          v-on:saveUser="saveUser"
+          v-on:updateUser="updateUser"
         )
         view-user-modal(
           :viewmodel="model",
-          ref="viewUserModalRef",
-          v-on:viewUser="viewUsers")
-        
+          ref="viewUserModalRef"
+        )
+        alert-modal(
+          :msg = "msg"
+        )
       router-view
 </template>
 
@@ -72,9 +26,11 @@
 		import userService from './userService'
     import EditUserModal from '@/Modals/EditUserModal'
     import ViewUserModal from '@/Modals/ViewUserModal'
-
+    import AlertModal from '@/Modals/AlertModal'
+    import UserLists from './UserLists'
 export default{
   data () {    
+    
     return {
       loading: false,
       users: [],
@@ -83,20 +39,22 @@ export default{
       updateModel: {},
       deleteModel: {},
       search: '',
-      modalShow: false,
       showEditModal: false,
       screen: screen.width,
-      editActive: ''
+      editActive: '',
+      msg: ''
     }
 	},
-
   async created () {
     this.refreshUsers()
   },
+  
 
   components: {
     EditUserModal,
-    ViewUserModal
+    ViewUserModal,
+    AlertModal,
+    UserLists
   },
 	
   methods: {
@@ -113,7 +71,7 @@ export default{
     async populateUserToEdit (user) {
       this.model = Object.assign({}, user)
     },
-    async saveUser () {
+    async updateUser () {
       if (this.model.user_id) {
         this.updateModel = {
           user_fname: this.model.user_fname,
@@ -139,9 +97,6 @@ export default{
     },
     openView(){
         this.$refs.viewUserModalRef.showModal()
-    },
-    close(){
-      this.editActive = ''
     },
     async deleteUser (id, isdel) {
       if (isdel === 0 && confirm('Are you sure you want to delete this user?')) {

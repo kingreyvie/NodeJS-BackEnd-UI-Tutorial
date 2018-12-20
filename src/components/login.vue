@@ -1,31 +1,23 @@
 <template lang="pug">
-  .modal(class="is-active")
-    .modal-background
-    .modal-content
+    form.hero(@submit.prevent='saveUser')
+      .hero2
+        h1 Log in Form
         .field
-          label.label First Name
+          label.label Username
           .control
-            input.input(type="text" placeholder="First Name" v-model = "model.user_fname")
+            input.input(type="text" placeholder="Username" v-model = "model.user_fname")
         .field
-          label.label Last Name
+          label.label Password
           .control
-            input.input(type="text" placeholder="Last Name" v-model = "model.user_lname")
-        .field
-          label.label Role
-          .control
-            input.input(type="text" placeholder="Role" v-model = "model.user_role")
-        .field
-          label.label Email
-          .control
-            input.input(type="text" placeholder="Email" v-model = "model.user_email")
+            input.input(type="password" placeholder="Password" v-model = "model.user_lname")
 
         .field.is-grouped.is-centered
           .control
             button.button.is-success
               i(class="fas fa-edit")
-              span Save User
+              span Log in
           .control
-            button.button.is-success
+            button.button.is-warning
               i(class="fas fa-undo") 
               span Clear
 
@@ -33,29 +25,36 @@
 
 
 <style scoped>
-  .hero {
-    height: 80vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-  }
-  .spacing{
-    margin: 0px;
-  }
-  .hero .lead {
-    font-weight: 300;
-    font-size: 1.5rem;
-  }
-  .bcard{
-    width:300px; 
-    height:400px;
-  }
-  .btn{
-    margin-left: 10px;
-    margin-top:20px;
+.hero {
+  margin-left: 30%;
+  margin-right: 30%;
+  margin-top: 5%;
+  margin-bottom: 10%;
+  border-radius: 30px;
+  background-color: rgba(245, 89, 89, 0.804);
+}
 
-  }
+.hero2 {
+  margin-left: 10%;
+  margin-right: 10%;
+  margin-top: 10%;
+  margin-bottom: 7%;
+}
+.spacing{
+  margin: 0px;
+}
+.hero .lead {
+  font-weight: 300;
+  font-size: 1.5rem;
+}
+.bcard{
+  width:300px; 
+  height:400px;
+}
+.btn{
+  margin-left: 10px;
+  margin-top:20px;
+}
 </style>
 
 <script>

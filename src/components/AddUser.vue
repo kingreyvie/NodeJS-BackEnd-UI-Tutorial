@@ -14,7 +14,8 @@
         label.label Role
         .control
           .select.is-dark.is-rounded
-            select(type='text' placeholder='Last Name' v-model='model.user_role')
+            select(type='text' v-model='model.user_role')
+              option(value="" disabled selected :style="{'font-size': '16px'}") Select your option
               option QA
               option Infra
               option Dev
@@ -64,6 +65,14 @@
 .title{
   color: white;
 }
+select{
+  width: 250px !important;
+  border-radius: 50px;
+}
+input[type="text"], select{
+  margin-bottom: 15px;
+  border: 1px solid rgb(65, 65, 65) !important;
+}
 </style>
 
 <script>
@@ -72,10 +81,9 @@ import userService from './userService'
 export default {
   data() {
     return {
-      model: {}
+      model: {'user_role': ''}
     }
   },
-
   methods: {
     async saveUser() {
       if (!this.model.user_fname || !this.model.user_lname || !this.model.user_email || !this.model.user_role) {
@@ -94,6 +102,7 @@ export default {
     },
     async clear() {
       this.model = {}
+      this.model.user_role =''
     }
   }
 }

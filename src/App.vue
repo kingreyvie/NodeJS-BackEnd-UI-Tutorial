@@ -2,8 +2,9 @@
 div
   nav.navbar.is-danger(role="navigation", aria-label="main navigation")
     .navbar-brand
-      a.navbar-item(href="/")
-        img(src="https://bulma.io/images/bulma-logo-white.png" alt="Bulma")
+      router-link(to="/")
+        a.navbar-item
+          img(src="https://bulma.io/images/bulma-logo-white.png" alt="Bulma")
 
       a.navbar-burger(role="button", aria-label="menu", aria-expanded="false")
         span(aria-hidden="true")
@@ -13,19 +14,19 @@ div
     .navbar-menu#navbarBasicExample
       .navbar-start
         router-link.as(to="/")
-          a.navbar-item Home
+          h1.navbar-item.navbarTitle Home
         router-link.as(to="/user-manager")
-          a.navbar-item Users
+          h1.navbar-item.navbarTitle Users
         router-link.as(to="/adduser")
-          a.navbar-item Add User
+          h1.navbar-item.navbarTitle Add User
         router-link.as(to="/editusermodal")
-          a.navbar-item Edit User Modal
+          h1.navbar-item.navbarTitle Edit User Modal
 
       .navbar-end
         .buttons
           a.button.is-warning
             strong Sign up
-          a.button.is-primary.bmargin(href="/login")
+          a.button.is-info.bmargin.has-text-light(href="/login")
             strong Log in
   router-view
 </template>
@@ -64,6 +65,10 @@ $font: 'Cantarell';
   font-size: 20px;
   font-family: 'Thasadith';
 }
+.navbar-brand{
+  font-family: $font;
+  color: #2c3e50;
+}
 body{
   font-family: $font;
   font-size:18px;
@@ -72,4 +77,16 @@ span{
   font-family: $font;
   font-size: 18px;
 }
+a{
+  color:black !important;
+}
+.navbar-start{
+  h1{
+    color:white;
+    font-weight: bolder;
+  }
+  h1:hover{
+    background-color: rgba(152, 14, 14, 0.55);
+  }
+}  
 </style>
