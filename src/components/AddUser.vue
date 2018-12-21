@@ -5,11 +5,11 @@
       .field
         label.label First Name
         .control
-          input.input.is-rounded(type='text' placeholder='First Name' v-model='model.user_fname')
+          input.input.is-rounded(type='text' placeholder='First Name' v-model='model.user_fname' v-on:keydown.enter="saveUser")
       .field
         label.label Last Name
         .control
-          input.input.is-rounded(type='text' placeholder='Last Name' v-model='model.user_lname')
+          input.input.is-rounded(type='text' placeholder='Last Name' v-model='model.user_lname' v-on:keydown.enter="saveUser")
       .field
         label.label Role
         .control
@@ -22,7 +22,7 @@
       .field
         label.label Email
         .control
-          input.input.is-rounded(type='text' placeholder='Email' v-model='model.user_email')
+          input.input.is-rounded(type='text' placeholder='Email' v-model='model.user_email' v-on:keydown.enter="saveUser")
       .buttons.is-right
 
         button.button.is-warning.is-rounded(@click.prevent='clear()')

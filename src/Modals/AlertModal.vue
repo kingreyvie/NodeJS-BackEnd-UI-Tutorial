@@ -5,9 +5,9 @@
         .modal-content.is-rounded(style="background-color: white; margin: 50px; border-radius: 30px; overflow-y: hidden")
           form(@submit.prevent="viewUser()" style="margin: 50px; height: 600px; overflow-y: hidden")
             h1.title The Account {{msg}}
-            h2.subtitle Name: {{viewmodel.user_fname}} {{viewmodel.user_lname}}
-            h2.subtitle Role: {{viewmodel.user_role}}
-            h2.subtitle Email: {{viewmodel.user_email}}
+            h2.subtitle Name:
+            h2.subtitle Role: 
+            h2.subtitle Email: 
 
             .field.buttons.is-right(style="margin-top: 30px")
               button.button.is-danger.is-rounded(@click.prevent="hideModal()")

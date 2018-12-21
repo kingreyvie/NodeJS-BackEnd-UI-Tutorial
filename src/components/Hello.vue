@@ -11,7 +11,6 @@
     export default {
         data() {
             return {
-                data,
                 isPaginated: true,
                 isPaginationSimple: false,
                 defaultSortDirection: 'asc',

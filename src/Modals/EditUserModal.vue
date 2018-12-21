@@ -3,7 +3,7 @@
      .modal(:class="editActive")
         .modal-background.is-rounded(@click.prevent="hideModal()")
         .modal-content.is-rounded(style="background-color: white; margin: 50px; border-radius: 30px; overflow-y: hidden")
-          form(@submit.prevent="updateUser" style="margin: 50px; height: 600px; overflow-y: hidden")
+          form(@submit.prevent="updateUser" style="margin: 50px; height: 495px; overflow-y: hidden")
             h2.is-rounded.title(:title="(editmodel.user_id ? 'Edit user ID #' + editmodel.user_id : 'New user')")  Edit User ID # 
               span.title(style="color: green; font-weight: bolder;") {{editmodel.user_id}}
             .field
@@ -18,7 +18,7 @@
               label.label Role
               .control
                 .select.is-sm(style="margin-bottom: 20px;")
-                  select.is-rounded.is-fullwidth(type="text" v-model = "editmodel.user_role")
+                  select.is-rounded(type="text" v-model = "editmodel.user_role")
                     option(value="" disabled selected :style="{'font-size': '18px'}") Select your option
                     option QA
                     option Infra
@@ -82,11 +82,11 @@ export default {
 
 <style lang="scss" scoped>
 select{
-  width: 200px !important;
+  width: 190px !important;
   border-radius: 50px;
 }
 h2{
-  margin-bottom:50px !important;
+  margin-bottom:20px !important;
 }
 input[type="text"], select{
   margin-bottom: 15px;

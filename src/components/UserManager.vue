@@ -1,12 +1,69 @@
 <template lang="pug">
     .hero
-      span
-        h1.title Employees
+      div(style="margin-top: 30px;")
+        span 
+          h1.title Employees
+        b-field(position='is-left')
+          b-input(placeholder='Search...' v-model='search' icon='magnify' @keyup.enter.native="searchUser(search)" @keyup.native="checkSearch(search)")
+          p.control
+            button.button.is-info Search
 
-        user-lists(
-          :user="users" 
-          ref="userListRef"
-          )
+        section
+          b-table(
+              :data="users"
+              :paginated="true"
+              :per-page="5"
+              :bordered="true"
+              :narrowed="true"
+              :pagination-simple="true"
+              default-sort="users.user_id"
+              :hoverable="true"
+              :striped="true")
+            template(slot-scope='props')
+              b-table-column(field='user_id' label='ID' sortable)
+                | {{ props.row.user_id }}
+              b-table-column(field='user_fname' label='First Name' sortable)
+                | {{ props.row.user_fname }}
+              b-table-column(field='user_lname' label='Last Name' sortable)
+                | {{ props.row.user_lname }}
+              b-table-column(field='user_role' label='Role' sortable)
+                | {{ props.row.user_role }}
+              b-table-column(field='user_email' label='Email' sortable)
+                | {{ props.row.user_email }}
+              b-table-column(field='user_isdel' label='Status' sortable)
+                span.status(v-if="props.row.user_isdel==0")
+                  span Active
+
+                span.status(v-else :style="{'color':'red'}")
+                  span Inactive
+
+              b-table-column(field="Action" label='Actions')
+                button.button.is-success.is-outlined.tblbtn.is-rounded(
+                v-if="props.row.user_isdel == 1", 
+                :pressed="true", 
+                @click.prevent="deleteUser(props.row.user_id, props.row.user_isdel)")
+                  span Activate       
+
+                button.button.is-danger.is-outlined.tblbtn.is-rounded(
+                v-else
+                :pressed="true", 
+                @click.prevent="deleteUser(props.row.user_id, props.row.user_isdel)") 
+                  span Deactivate
+ 
+                b-tooltip(label="Edit")
+                  a(ref = "#" @click.prevent = "populateUserToEdit(props.row)")
+                    button.button.is-primary.is-outlined.tblicon.is-rounded(
+                    :pressed="true", @click="openEdit") 
+                      span
+                        i(class="fas fa-edit")
+        
+            template(slot='empty')
+              section.section
+                .content.has-text-grey.has-text-centered
+                  p
+                    b-icon(icon='emoticon-sad' size='is-large')
+                  p Nothing here.
+
         edit-user-modal(
           :editmodel="model",
           ref="editUserModalRef",
@@ -20,6 +77,7 @@
           :msg = "msg"
         )
       router-view
+
 </template>
 
 <script>
@@ -56,8 +114,32 @@ export default{
     AlertModal,
     UserLists
   },
-	
   methods: {
+        async searchUser(str){
+        var data = []
+        str = str.toLowerCase()
+        if (this.users.length == 0){
+            this.refreshUsers()
+        }
+        if(str != undefined && str != null && str != ''){
+              this.users.forEach(user => {
+                if(user.user_id.toString().includes(str)
+                || user.user_fname.toLowerCase().includes(str)
+                || user.user_lname.toLowerCase().includes(str)
+                || user.user_role.toLowerCase().includes(str)
+                || user.user_email.toLowerCase().includes(str))
+                data.push(user)
+            });
+            this.users = data
+        }else{
+            this.refreshUsers()
+        }
+    },
+    async checkSearch(search){
+      if(search==''){
+        this.refreshUsers()
+      }
+    },
     async refreshUsers () {
       this.loading = true
       this.users = (await userService.getUsers()).data.allUser
@@ -87,7 +169,6 @@ export default{
         await userService.updateUser(this.model.user_id, this.updateModel)
         this.model = {}
         await this.refreshUsers()
-        await this.close()
       }
       }
 
@@ -99,6 +180,7 @@ export default{
         this.$refs.viewUserModalRef.showModal()
     },
     async deleteUser (id, isdel) {
+      
       if (isdel === 0 && confirm('Are you sure you want to delete this user?')) {
         this.deleteModel = {
           user_isdel: 1
@@ -150,7 +232,6 @@ input[type="text"], select{
 }
 .hero h1{
   font-size: 50px;
-  margin: 10px;
 }
 .iconspc{
   margin-right: 3px;

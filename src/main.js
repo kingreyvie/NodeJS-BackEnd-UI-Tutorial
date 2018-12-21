@@ -4,10 +4,9 @@ import Vue from 'vue'
 import App from './App'
 import router from './router'
 import Bulma from 'bulma'
-import 'bulma-tooltip'
 import Buefy from 'buefy'
 import 'buefy/dist/buefy.css'
-
+Vue.use(Bulma)
 Vue.use(Buefy)
 /* eslint-disable no-new */
 

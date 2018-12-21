@@ -19,15 +19,13 @@ div
           h1.navbar-item.navbarTitle Users
         router-link.as(to="/adduser")
           h1.navbar-item.navbarTitle Add User
-        router-link.as(to="/editusermodal")
-          h1.navbar-item.navbarTitle Edit User Modal
 
       .navbar-end
         .buttons
-          a.button.is-warning
-            strong Sign up
-          a.button.is-info.bmargin.has-text-light(href="/login")
-            strong Log in
+          router-link.as(to="/login")
+            a.button.is-link.bmargin.has-text-light(style="width: 89px;")
+              strong Log in
+      
   router-view
 </template>
 
